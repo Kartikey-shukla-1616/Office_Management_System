@@ -1,0 +1,437 @@
+import pathlib
+from tkinter import ttk
+from tkinter import *
+from tkinter import messagebox
+import pyttsx3
+import openpyxl ,xlrd
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
+# _____________________________________________login section----------------------------------
+engine = pyttsx3.init()
+engine.say('Jay Shree Ram..... Welcome to prh security gards services private limited')
+engine.runAndWait()
+
+
+def login():  # window 1  login function
+    username = entry1.get()
+    password = entry2.get()
+
+    if (username == "" and password == ""):
+        messagebox.showerror("", "Blank Not Allowed")
+        engine.say('Blank Not Allowed')
+        engine.runAndWait()
+    if (username != "k" and password != "1"):
+
+        engine.say('please check the password')
+        engine.runAndWait()
+        messagebox.showerror("", "Wrong Password")
+
+    elif (username == "k" and password == "1"):
+
+        # _____________________________window2 entry window________________________________
+        file = pathlib.Path('test.xlsx')
+        if file.exists():
+            pass
+        else:
+            file = Workbook()
+
+            sheet = file.active
+
+            sheet['A1'] = "Name : "
+            sheet['B1'] = "Account Number :"
+            sheet['C1'] = "IFSC : "
+            sheet['D1'] = "Transaction Type : "
+            sheet['E1'] = "Debited Account number :  "
+            sheet['F1'] = "Transaction date : "
+            sheet['G1'] = "Amount : "
+            sheet['H1'] = "Currency : "
+            file.save('test.xlsx')
+
+            # ______________workbook excel section end_________________
+
+        # __________________________manager section end_______________________
+        new_windows = Toplevel(root)
+        new_windows.geometry("1080x720")
+        new_windows.configure(bg="CadetBlue1")
+        heading = Label(new_windows, text="WELCOME TO MANAGER SECTION", font="arial 40 bold", bg="blue",
+                        fg="yellow")  # bg="#000" for black color
+        heading.pack(fill=X)
+        # Label(new_windows, font=("arial", 15, "bold"), text="current time:", bg="papaya whip").place(x=10, y=70)
+        new_windows.title("MANAGER SECTION")
+
+        # ________________________manager section label______________________________________________________
+        def del0():
+            en1.delete(0, END)
+            en2.delete(0, END)
+            en3.delete(0, END)
+            en4.delete(0, END)
+            en5.delete(0, END)
+            en6.delete(0, END)
+            en7.delete(0, END)
+            en8.delete(0, END)
+            new_windows.configure(bg="pink")
+
+            messagebox.showinfo("Successful", "Clear Sucessfull")
+
+
+        file = load_workbook(filename='test.xlsx')
+        sheet1 = file.active
+        def submit():
+
+            c = name.get()
+            choice1 = accno.get()
+            choice2 = ifsc.get()
+            choice3 = trantype.get()
+            choice4 = debitaccno.get()
+            choice5 = trandate.get()
+            choice6 = amount.get()
+            choice7 = currency.get()
+
+            if c and choice1 and choice2 and choice3 and choice4 and choice5 and choice6 and choice7:
+                sheet1.cell(column=1, row=sheet1.max_row + 1, value=c)
+                sheet1.cell(column=2, row=sheet1.max_row, value=choice1)
+                sheet1.cell(column=3, row=sheet1.max_row, value=choice2)
+                sheet1.cell(column=4, row=sheet1.max_row, value=choice3)
+                sheet1.cell(column=5, row=sheet1.max_row, value=choice4)
+                sheet1.cell(column=6, row=sheet1.max_row, value=choice5)
+                sheet1.cell(column=7, row=sheet1.max_row, value=choice6)
+                sheet1.cell(column=8, row=sheet1.max_row, value=choice7)
+                file.save(filename='test.xlsx')
+                new_windows.configure(bg="green")
+
+
+                
+                
+                # sheet1.append([c,choice1,choice2,choice3,choice4,choice5,choice6,choice7])
+                # file.save(filename='test.xlsx')
+                messagebox.showinfo("Status","Data Submitted")
+            else:
+                messagebox.showwarning("Waring","Fileds Empty")
+
+            # sheet = file.active
+            # sheet.cell(column=1, row=sheet.max_row + 1, value=c)
+            # sheet.cell(column=2, row=sheet.max_row, value=choice1)
+            # sheet.cell(column=3, row=sheet.max_row, value=choice2)
+            # sheet.cell(column=4, row=sheet.max_row, value=choice3)
+            # sheet.cell(column=5, row=sheet.max_row, value=choice4)
+            # sheet.cell(column=6, row=sheet.max_row, value=choice5)
+            # sheet.cell(column=7, row=sheet.max_row, value=choice6)
+            # sheet.cell(column=8, row=sheet.max_row, value=choice7)
+            # file.save(r'masterfile.xlsx')
+
+        name = Label(new_windows, text="Name Of Guard :", font="comicsansms 13 bold", bg="yellow")
+        name.place(x=10, y=104)
+
+        accno = Label(new_windows, text="Account Number : ", font="comicsansms 13 bold", bg="yellow")
+        accno.place(x=10, y=160)
+        ifsc = Label(new_windows, text="IFSC Code: ", font="comicsansms 13 bold", bg="yellow")
+        ifsc.place(x=10, y=220)
+        trantype = Label(new_windows, text="Transaction Type: ", font="comicsansms 13 bold", bg="yellow")
+        trantype.place(x=10, y=265)
+        debitaccno = Label(new_windows, text="Debit Account Number: ", font="comicsansms 13 bold", bg="yellow")
+        debitaccno.place(x=10, y=320)
+        trandate = Label(new_windows, text="Trasaction Date: ", font="comicsansms 13 bold", bg="yellow")
+        trandate.place(x=10, y=380)
+        amount = Label(new_windows, text="Enter Payment Amount: ", font="comicsansms 13 bold", bg="yellow")
+        amount.place(x=10, y=420)
+        currency = Label(new_windows, text="Currency: ", font="comicsansms 13 bold", bg="yellow")
+        currency.place(x=10, y=480)
+        # _______________________end of lable_________________________________________________________
+
+        # _______________storing entries __________
+
+        name = StringVar()
+        accno = StringVar()
+        ifsc = StringVar()
+        trantype = StringVar()
+        debitaccno = StringVar()
+        trandate = StringVar()
+        amount = StringVar()
+        currency = StringVar()
+
+        # ________________________ writing section of window2_________________________________________
+        en1 = Entry(new_windows, bd=5, textvariable=name)
+
+        en1.config(bg="yellow")
+        en1.place(x=220, y=100)
+
+        en2 = Entry(new_windows, bd=5, textvariable=accno)
+        en2.config(bg="yellow")
+        en2.place(x=220, y=150)
+
+        en3 = Entry(new_windows, bd=5, textvariable=ifsc)
+        en3.config(bg="yellow")
+        en3.place(x=220, y=220)
+
+        en4 = Entry(new_windows, bd=5, textvariable=trantype)
+        en4.config(bg="yellow")
+        en4.place(x=220, y=265)
+
+        en5 = Entry(new_windows, bd=5, textvariable=debitaccno)
+        en5.config(bg="yellow")
+        en5.place(x=220, y=320)  #
+
+        en6 = Entry(new_windows, bd=5, textvariable=trandate)
+        en6.config(bg="yellow")
+        en6.place(x=220, y=375)
+
+        en7 = Entry(new_windows, bd=5, textvariable=amount)
+        en7.config(bg="yellow")
+        en7.place(x=220, y=420)
+
+        en8 = Entry(new_windows, bd=5, textvariable=currency)
+        en8.config(bg="yellow")
+        en8.place(x=220, y=480)
+        # ______________________________end of writting section entry ____________________________________
+
+        # _________________w2 button_________________________________
+
+        Button(new_windows, text="Submitted", bg="pink", command=submit, font="comicsansms 13 bold", height=3,
+               width=13, bd=6).place(x=110, y=600)
+
+        Button(new_windows, text="Clear", bg="red", command=del0, font="comicsansms 13 bold", height=3,
+               width=13, bd=6).place(x=330, y=600)
+
+        # --------------------------------------w2 end ---------------------
+
+        messagebox.showinfo("", "Login Successful ")
+
+
+def del1():
+    entry1.delete(0, END)
+    entry2.delete(0, END)
+
+
+# _____________________________________________________________________________________
+def login1():  # admin section login button
+    username = entry1.get()
+    password = entry2.get()
+
+    if (username == "" and password == ""):
+        messagebox.showerror("", "Blank Not Allowed")
+        engine.say('Blank Not Allowed')
+        engine.runAndWait()
+    elif (username == "admin" and password == "1234"):
+
+        messagebox.showinfo("", "Login Successful ")
+engine = pyttsx3.init()
+engine.say('Welcome TO Admin Section ')
+engine.runAndWait()
+
+
+root12 = Tk()
+root12.geometry("1000x1000") #making window 1
+root12.title("Admin Section")
+#root.wm_iconbitmap("login.ico")
+root12.configure(bg="pink")
+
+
+def del12():
+    en12.delete(0, END)
+    en22.delete(0, END)
+    en33.delete(0, END)
+    en77.delete(0, END)
+
+    root12.configure(bg="orange")
+def sub1():
+    c1 = name12.get()
+    choice12 = accno22.get
+    choice22 = ifsc33.get()
+    choice33 = trantype44.get()
+    choice44 = debitaccno55.get()
+    choice55 = trandate66.get()
+    choice66 = amount77.get()
+    choice77 = currency88.get()
+
+
+
+    print(
+        f"{name12.get(), accno22.get(), ifsc33.get(), trantype44.get(), debitaccno55.get(),trandate66.get(), amount77.get(), currency88.get()}\n")
+    with open("data.txt", "a") as f:
+        f.write("\n\nName Of Gard:  " + name12.get())
+        f.write("\nAccount Number :  " + accno22.get())
+        f.write("\nIFSC Number:  " + ifsc33.get())
+        f.write("\nTransaction Type :  " + trantype44.get())
+        f.write("\nDebit Account Number :  " + debitaccno55.get())
+        f.write("\n Transaction Date :  " + trandate66.get())
+        f.write("\n Amount  :  " + amount77.get())
+        f.write("\n  Currency :  " + currency88.get())
+        root12.config(bg="green")
+
+
+
+
+
+
+# root.resizable(FALSE,FALSE)
+
+heading11 = Label(root12, text="WELCOME TO ADMIN SECTION", font="arial 15 bold", bg="blue",
+                fg="white")
+heading11.pack(fill=X)
+
+name12 = Label(root12, text="Name Of Guard :", font="comicsansms 13 bold", bg="yellow")
+name12.place(x=10, y=104)
+
+accno22 = Label(root12, text="Account Number : ", font="comicsansms 13 bold", bg="yellow")
+accno22.place(x=10, y=160)
+ifsc33 = Label(root12, text="IFSC Code: ", font="comicsansms 13 bold", bg="yellow")
+ifsc33.place(x=10, y=220)
+trantype44 = Label(root12, text="Transaction Type: ", font="comicsansms 13 bold", bg="yellow")
+trantype44.place(x=10, y=265)
+debitaccno55 = Label(root12, text="Debit Account Number: ", font="comicsansms 13 bold", bg="yellow")
+debitaccno55.place(x=10, y=320)
+trandate66 = Label(root12, text="Trasaction Date: ", font="comicsansms 13 bold", bg="yellow")
+trandate66.place(x=10, y=380)
+amount77 = Label(root12, text="Enter Payment Amount: ", font="comicsansms 13 bold", bg="yellow")
+amount77.place(x=10, y=420)
+currency88 = Label(root12, text="Currency: ", font="comicsansms 13 bold", bg="yellow")
+currency88.place(x=10, y=480)
+
+name12 = StringVar()
+accno22 = StringVar()
+ifsc33 = StringVar()
+trantype44 = StringVar()
+trantype44.set("IFT")
+debitaccno55 = StringVar()
+debitaccno55.set("Curent Bank Account P.R.H")
+trandate66 = StringVar()
+trandate66.set("               /    /     ")
+amount77 = StringVar()
+currency88 = StringVar()
+currency88.set("INR")
+
+en12 = Entry(root12, bd=5, textvariable=name12,width=25)
+
+en12.config(bg="yellow")
+en12.place(x=220, y=100)
+
+en22 = Entry(root12, bd=5, textvariable=accno22,width=25)
+en22.config(bg="yellow")
+en22.place(x=220, y=150)
+
+en33 = Entry(root12, bd=5, textvariable=ifsc33,width=25)
+en33.config(bg="yellow")
+en33.place(x=220, y=220)
+
+en44 = Entry(root12, bd=5, textvariable=trantype44,width=25)
+en44.config(bg="yellow")
+en44.place(x=220, y=265)
+
+en55 = Entry(root12, bd=5, textvariable=debitaccno55,width=25)
+en55.config(bg="yellow")
+en55.place(x=220, y=320)  #
+
+en66 = Entry(root12, bd=5, textvariable=trandate66,width=25)
+en66.config(bg="yellow")
+en66.place(x=220, y=375)
+
+en77 = Entry(root12, bd=5, textvariable=amount77,width=25)
+en77.config(bg="yellow")
+en77.place(x=220, y=420)
+
+en88 = Entry(root12, bd=5, textvariable=currency88,width=25)
+en88.config(bg="yellow")
+en88.place(x=220, y=480)
+
+Button(root12, text="Submitted", bg="pink", command=sub1, font="comicsansms 13 bold", height=3,
+       width=13, bd=6).place(x=110, y=600)
+
+Button(root12, text="Clear", bg="red", command=del12, font="comicsansms 13 bold", height=3,
+       width=13, bd=6).place(x=330, y=600)
+
+
+
+
+
+root12.mainloop()
+
+
+
+
+
+
+
+
+
+
+def admin():
+    root1 = Tk()
+    root1.geometry("600x400")  # making window 1
+    root1.title("Login Page")
+    root1.configure(bg="pink")
+    root1.resizable(FALSE, FALSE)
+
+    heading = Label(root1, text="ADMIN LOGIN CREDENTIAL", font="arial 15 bold", bg="black",
+                    fg="white")
+    heading.pack(fill=X)
+    global entry1
+    global entry2
+    Label(root1, text="User Name", bg="pink", font="arial 15 bold ").place(x=90, y=80)
+    Label(root1, text="Password", bg="pink", font="arial 15 bold ").place(x=90, y=160)
+
+    def show_pass():
+        if entry2.cget('show') == '*':
+            entry2.config(show='')
+        else:
+            entry2.config(show='*')
+
+    entry1 = Entry(root1, bd=5)
+    entry1.config(bg="yellow")
+    entry1.place(x=250, y=80)
+    entry2 = Entry(root1, bd=5, show='*')
+    entry2.config(bg="yellow")
+    entry2.place(x=250, y=160)
+    cheack_button = Checkbutton(root1, text="Show Password", bg="orange", command=show_pass, bd=5)
+    cheack_button.place(x=90, y=200)
+
+    Button(root1, text="Login", bg="green", command=login1, height=3, width=13, bd=6).place(x=200, y=250)
+    Button(root1, text="Clear", bg="red", command=del1, height=3, width=13, bd=6).place(x=200, y=330)
+
+
+
+# ---------------------------------------------------------------------------------
+
+
+root = Tk()
+root.geometry("600x400")  # making window 1
+root.title("Login Page")
+root.configure(bg="pink")
+root.resizable(FALSE, FALSE)
+
+heading = Label(root, text="WELLCOME TO P.R.H PRIVATE SERVICE LIMITED BHOPAL ", font="arial 15 bold", bg="black",
+                fg="white")
+heading.pack(fill=X)
+global entry1
+global entry2
+Label(root, text="User Name", bg="pink", font="arial 15 bold ").place(x=90, y=80)
+Label(root, text="Password", bg="pink", font="arial 15 bold ").place(x=90, y=160)
+
+
+def del2():  # first login form clear button
+    entry1.delete(0, END)
+    entry2.delete(0, END)
+
+
+def show_pass():
+    if entry2.cget('show') == '*':
+        entry2.config(show='')
+    else:
+        entry2.config(show='*')
+
+
+entry1 = Entry(root, bd=5)
+entry1.config(bg="yellow")
+entry1.place(x=250, y=80)
+entry2 = Entry(root, bd=5, show='*')
+entry2.config(bg="yellow")
+entry2.place(x=250, y=160)
+cheack_button = Checkbutton(root, text="Show Password", bg="orange", command=show_pass, bd=5)
+cheack_button.place(x=90, y=200)
+
+Button(root, text="Login", bg="green", command=login, height=3, width=13, bd=6).place(x=200, y=250)
+Button(root, text="Clear", bg="red", command=del2, height=3, width=13, bd=6).place(x=200, y=330)
+
+Button(root, text="Admin Section", bg="green", command=admin, height=3, width=13, bd=6).place(x=350, y=250)
+
+root.mainloop()
